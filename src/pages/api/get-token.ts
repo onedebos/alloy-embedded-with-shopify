@@ -5,23 +5,21 @@ type ResponseData = {
   message: string;
 };
 
-// Creates a new User in Alloy
-export default async function createUser(
+// Gets the JWT token to allow the user make requests
+export default async function getToken(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  if (!req.body.username) {
-    res.status(400).json({ message: "No username provided!" });
+  if (!req.body.userId) {
+    res.status(400).json({ message: "No userId provided!" });
   }
 
-  const { username } = req.body;
+  const { userId } = req.body;
 
   try {
-    const response = await axios.post(
-      "https://embedded.runalloy.com/2023-12/one/users",
-      {
-        username,
-      },
+    const response = await axios.get(
+      `https://embedded.runalloy.com/2023-12/users/${userId}/token`,
+
       {
         headers: {
           Authorization: `bearer ${process.env.API_KEY}`,
@@ -32,6 +30,6 @@ export default async function createUser(
     res.status(200).json({ message: response.data });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: "Could not create user!" });
+    res.status(400).json({ message: "Could not generate token!" });
   }
 }
