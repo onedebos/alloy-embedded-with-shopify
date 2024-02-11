@@ -6,14 +6,27 @@ This repo contains a backend and frontend for [Alloy's UAPI](https://runalloy.co
 
 ## Getting Started
 
-To get started, clone this repo and run the commands below
+To get started, clone this repo and run
 
 ```bash
 npm install
+```
+
+to install the required packages.
+
+Next, create a `.env.local` file in the root directory and replace it with
+
+```
+API_KEY=YOUR_API_KEY
+```
+
+Then run,
+
+```
 npm run dev
 ```
 
-Once done, Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 <!-- To see the completed version of this demo, head  `app/page.tsx`. The page auto-updates as you edit the file. -->
 

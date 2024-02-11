@@ -5,20 +5,19 @@ type ResponseData = {
   message: string;
 };
 
-// Gets the JWT token to allow the user make requests
-export default async function getToken(
+export default async function getUser(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  if (!req.body.userId) {
+  const { userId } = req.query;
+
+  if (!userId) {
     res.status(400).json({ message: "No userId provided!" });
   }
 
-  const { userId } = req.body;
-
   try {
     const response = await axios.get(
-      `https://embedded.runalloy.com/2023-12/users/${userId}/token`,
+      `https://embedded.runalloy.com/2023-12/users/${userId}`,
 
       {
         headers: {
@@ -30,6 +29,6 @@ export default async function getToken(
     res.status(200).json({ message: response.data });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: "Could not generate token!" });
+    res.status(400).json({ message: "Could not find user!" });
   }
 }
