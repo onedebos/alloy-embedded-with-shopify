@@ -5,10 +5,17 @@ type ResponseData = {
   message: string;
 };
 
+interface Response {
+  data: {
+    token: string;
+  };
+  message: string;
+}
+
 // Gets the JWT token to allow the user make requests
 export default async function getToken(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData | Response>
 ) {
   const { userId } = req.query;
 
@@ -27,7 +34,7 @@ export default async function getToken(
       }
     );
 
-    res.status(200).json({ message: response.data });
+    res.status(200).json({ message: "success", data: response.data });
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Could not generate token!" });

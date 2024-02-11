@@ -5,9 +5,18 @@ type ResponseData = {
   message: string;
 };
 
+interface Response {
+  data: {
+    userId: string;
+    fullName: string;
+    username: string;
+  };
+  message: string;
+}
+
 export default async function getUser(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<Response | ResponseData>
 ) {
   const { userId } = req.query;
 
@@ -26,7 +35,7 @@ export default async function getUser(
       }
     );
 
-    res.status(200).json({ message: response.data });
+    res.status(200).json({ message: "success", data: response.data });
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Could not find user!" });

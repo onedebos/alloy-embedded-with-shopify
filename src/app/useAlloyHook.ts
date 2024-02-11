@@ -4,7 +4,7 @@ import Alloy from "alloy-frontend";
 import { NextApiResponse } from "next";
 
 interface AlloyHooksResponse extends NextApiResponse {
-  data: { message: { userId: string; username: string } };
+  data: { message: string; data: { userId: string; username: string } };
 }
 
 interface Customer {
@@ -25,7 +25,7 @@ const useAlloyHooks = () => {
   const [username, setUsername] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [token, setToken] = useState<string>("");
-  const [userId, setUserId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("65c7b8f3a17e01bd0a554399");
   const [loading, setLoading] = useState<boolean>(true);
   const [connectionId, setConnectionId] = useState<string>("");
   const [companyInfo, setCompanyInfo] = useState({
@@ -45,7 +45,7 @@ const useAlloyHooks = () => {
         "/api/create-user",
         { username }
       );
-      const { userId } = response.data.message;
+      const { userId } = response.data.data;
       setUsername(username);
       setUserId(userId);
       setLoading(false);
@@ -63,7 +63,7 @@ const useAlloyHooks = () => {
         `api/get-user/${userId}`
       );
 
-      setUsername(response.data.message.username);
+      setUsername(response.data.data.username);
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
@@ -75,7 +75,7 @@ const useAlloyHooks = () => {
     try {
       setErrorMsg("");
       const response = await axios.get(`/api/get-token/${userId}`);
-      const { token } = response.data.message;
+      const { token } = response.data.data;
 
       setToken(token);
 
@@ -101,7 +101,7 @@ const useAlloyHooks = () => {
 
       const response = await axios.get(`/api/get-company-info/${connectionId}`);
       console.log(response.data);
-      const { companyInfo } = response.data.message;
+      const { companyInfo } = response.data.data;
       const { companyName, companyPhoneNumbers, currency } = companyInfo[0];
       setCompanyInfo({
         companyName,
@@ -121,7 +121,7 @@ const useAlloyHooks = () => {
         `/api/get-customer-list/${connectionId}`
       );
 
-      const { customers } = response.data.message;
+      const { customers } = response.data.data;
       const customerList: Customer[] = [];
       customers.map((customer: any) => {
         const { remoteId, customerName, email, phoneNumbers, taxNumber } =
@@ -146,10 +146,11 @@ const useAlloyHooks = () => {
       setErrorMsg("");
       setLoading(true);
       const connectionId = localStorage.getItem("connectionId");
-      const response: AlloyHooksResponse = await axios.post(
-        `/api/create-customer/${connectionId}`,
-        { customerName: name, email, taxNumber }
-      );
+      await axios.post(`/api/create-customer/${connectionId}`, {
+        customerName: name,
+        email,
+        taxNumber,
+      });
 
       setSuccessMsg("User successfully created");
       setLoading(false);

@@ -5,9 +5,34 @@ type ResponseData = {
   message: string;
 };
 
+interface Response {
+  data: {
+    id: string;
+    remoteId: string;
+    companyName: string;
+    companyLegalName: string;
+    taxNumber: string | null;
+    fiscalYearEndMonth: string | null;
+    fiscalYearEndDay: string | null;
+    currency: string;
+    companyUrls: [];
+    companyAddresses: {
+      addressType: string;
+      zipCode: string;
+      city: string;
+      street1: string;
+      street2: string | null;
+      state: string;
+      countrySubdivision: string | null;
+    }[];
+
+    companyPhoneNumbers: [];
+  };
+}
+
 export default async function getCompanyInfo(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData | Response>
 ) {
   const { connectionId } = req.query;
 
@@ -22,7 +47,7 @@ export default async function getCompanyInfo(
       }
     );
 
-    res.status(200).json({ message: response.data });
+    res.status(200).json({ message: "success", data: response.data });
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Could not get company info!" });

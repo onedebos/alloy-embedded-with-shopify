@@ -5,9 +5,29 @@ type ResponseData = {
   message: string;
 };
 
+interface Response {
+  data: {
+    customers: {
+      remoteId: string;
+      customerName: string;
+      email: string;
+      taxNumber: string | null;
+      customerStatus: string;
+      currency: string;
+      companyId: string | null;
+      addresses: [];
+      phoneNumbers: [];
+      createdTimestamp: any;
+      updatedTimestamp: any;
+      id: string;
+    }[];
+  };
+  message: string;
+}
+
 export default async function getCustomerList(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData | Response>
 ) {
   const { connectionId } = req.query;
 
@@ -22,7 +42,7 @@ export default async function getCustomerList(
       }
     );
 
-    res.status(200).json({ message: response.data });
+    res.status(200).json({ message: "success", data: response.data });
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Could not get company info!" });

@@ -5,17 +5,29 @@ type ResponseData = {
   message: string;
 };
 
-interface RequestData extends NextApiRequest {
-  body: {
-    customerName: string;
-    email: string;
-    taxNumber: string;
+interface Response {
+  data: {
+    customer: {
+      remoteId: string;
+      customerName: string;
+      email: string;
+      taxNumber: string | null;
+      customerStatus: string;
+      currency: string;
+      companyId: string | null;
+      addresses: [];
+      phoneNumbers: [];
+      createdTimestamp: any;
+      updatedTimestamp: any;
+      id: string;
+    };
   };
+  message: string;
 }
 
 export default async function createCustomer(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData | Response>
 ) {
   const { connectionId } = req.query;
   const { customerName, email, taxNumber } = req.body;
@@ -36,7 +48,7 @@ export default async function createCustomer(
       }
     );
 
-    res.status(200).json({ message: response.data });
+    res.status(200).json({ message: "success", data: response.data });
   } catch (err: any) {
     console.log(err);
     res.status(400).json({ message: err.message });
