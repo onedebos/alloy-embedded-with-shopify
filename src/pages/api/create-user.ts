@@ -5,6 +5,12 @@ type ResponseData = {
   message: string;
 };
 
+interface RequestData extends NextApiRequest {
+  body: {
+    username: string;
+  };
+}
+
 // Creates a new User in Alloy
 export default async function createUser(
   req: NextApiRequest,
