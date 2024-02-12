@@ -5,7 +5,7 @@ type ResponseData = {
   message: string;
 };
 
-interface Response {
+interface Response extends ResponseData {
   data: {
     customers: {
       remoteId: string;
@@ -22,7 +22,6 @@ interface Response {
       id: string;
     }[];
   };
-  message: string;
 }
 
 export default async function getCustomerList(

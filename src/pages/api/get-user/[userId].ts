@@ -5,13 +5,12 @@ type ResponseData = {
   message: string;
 };
 
-interface Response {
+interface Response extends ResponseData {
   data: {
     userId: string;
     fullName: string;
     username: string;
   };
-  message: string;
 }
 
 export default async function getUser(

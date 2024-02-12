@@ -5,7 +5,7 @@ type ResponseData = {
   message: string;
 };
 
-interface Response {
+interface Response extends ResponseData {
   data: {
     customer: {
       remoteId: string;
@@ -22,7 +22,12 @@ interface Response {
       id: string;
     };
   };
-  message: string;
+}
+
+interface RequestBody {
+  customerName: string;
+  email: string;
+  taxNumber: string;
 }
 
 export default async function createCustomer(
@@ -30,7 +35,7 @@ export default async function createCustomer(
   res: NextApiResponse<ResponseData | Response>
 ) {
   const { connectionId } = req.query;
-  const { customerName, email, taxNumber } = req.body;
+  const { customerName, email, taxNumber }: RequestBody = req.body;
 
   try {
     const response = await axios.post(

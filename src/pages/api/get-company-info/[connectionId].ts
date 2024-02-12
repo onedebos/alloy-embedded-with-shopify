@@ -5,7 +5,7 @@ type ResponseData = {
   message: string;
 };
 
-interface Response {
+interface Response extends ResponseData {
   data: {
     id: string;
     remoteId: string;
@@ -25,7 +25,6 @@ interface Response {
       state: string;
       countrySubdivision: string | null;
     }[];
-
     companyPhoneNumbers: [];
   };
 }

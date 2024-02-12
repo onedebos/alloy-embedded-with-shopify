@@ -5,11 +5,10 @@ type ResponseData = {
   message: string;
 };
 
-interface Response {
+interface Response extends ResponseData {
   data: {
     token: string;
   };
-  message: string;
 }
 
 // Gets the JWT token to allow the user make requests

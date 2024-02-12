@@ -5,11 +5,14 @@ type ResponseData = {
   message: string;
 };
 
-interface Response {
+interface Response extends ResponseData {
   data: {
     userId: string;
   };
-  message: string;
+}
+
+interface RequestBody {
+  username: string;
 }
 
 // Creates a new User in Alloy
@@ -21,7 +24,7 @@ export default async function createUser(
     res.status(400).json({ message: "No username provided!" });
   }
 
-  const { username } = req.body;
+  const { username }: RequestBody = req.body;
 
   try {
     const response = await axios.post(
