@@ -1,6 +1,6 @@
-## Alloy Unified API
+## Alloy Embedded Demo
 
-This is a demo app to build an integration between Shopify and [Alloy] using [Embedded](https://runalloy.com/embedded/).
+This is a demo app to build an integration with [Alloy Embedded](https://runalloy.com/embedded/).
 
 This repo demos how to
 
