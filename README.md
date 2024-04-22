@@ -1,8 +1,13 @@
 ## Alloy Unified API
 
-This is a demo app to build an integration between Shopify and [Alloy's UAPI](https://runalloy.com/unified-api/).
+This is a demo app to build an integration between Shopify and [Alloy] using [Embedded](https://runalloy.com/embedded/).
 
-This repo contains a backend and frontend for [Alloy's UAPI](https://runalloy.com/unified-api/) in NextJS. The `main` branch contains boilerplate code to help you get started and set up quickly. The `completed` branch contains the completed code for this demo.
+This repo demos how to
+
+- List your Embedded integrations in your app Marketplace
+- Allow your users to install any of the integrations
+
+The `embedded` branch contains the completed code for this demo.
 
 ## Getting Started
 
@@ -32,4 +37,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 To learn more about Alloy, take a look at:
 
-- [Alloy's UAPI](https://runalloy.com/)
+- [Alloy](https://runalloy.com/)
