@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// Gets the JWT token to allow the user make requests
-export default async function getToken(req, res) {
+export default async function getUser(req, res) {
   const { userId } = req.query;
 
   if (!userId) {
@@ -10,7 +9,7 @@ export default async function getToken(req, res) {
 
   try {
     const response = await axios.get(
-      `https://embedded.runalloy.com/2024-03//users/${userId}/token`,
+      `https://embedded.runalloy.com/2024-03/users/${userId}/credentials`,
 
       {
         headers: {
@@ -19,9 +18,11 @@ export default async function getToken(req, res) {
       }
     );
 
-    res.status(200).json({ message: "success", data: response.data });
+    res
+      .status(200)
+      .json({ message: "success", data: response.data.data[0].credentialId });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: "Could not generate token!" });
+    res.status(400).json({ message: "Could not find user!" });
   }
 }

@@ -1,34 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
-type ResponseData = {
-  message: string;
-};
-
-interface Response extends ResponseData {
-  data: {
-    userId: string;
-  };
-}
-
-interface RequestBody {
-  username: string;
-}
-
 // Creates a new User in Alloy
-export default async function createUser(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData | Response>
-) {
+export default async function createUser(req, res) {
   if (!req.body.username) {
     res.status(400).json({ message: "No username provided!" });
   }
 
-  const { username }: RequestBody = req.body;
+  const { username } = req.body;
 
   try {
     const response = await axios.post(
-      "https://embedded.runalloy.com/2023-12/one/users",
+      "https://embedded.runalloy.com/2024-03/one/users",
       {
         username,
       },

@@ -1,6 +1,6 @@
 "use client";
 
-import ConnectQuickBooks from "@/components/ConnectQuickBooks";
+import ConnectShopify from "@/components/ConnectShopify";
 import CreateUser from "@/components/CreateUser";
 import useAlloyHooks from "./useAlloyHook";
 import { useEffect } from "react";
@@ -10,10 +10,10 @@ export default function Home() {
     createUser,
     errorMsg,
     username,
-    connectToQuickBooks,
     userId,
-    connectionId,
+    connectSuccess,
     getUser,
+    connectToShopify,
   } = useAlloyHooks();
 
   useEffect(() => {
@@ -28,16 +28,14 @@ export default function Home() {
 
   return (
     <div>
-      {userId ? (
-        <ConnectQuickBooks
-          username={username}
-          connectToQuickBooks={connectToQuickBooks}
+      {
+        <ConnectShopify
+          username={""}
+          connectToShopify={connectToShopify}
           errorMsg={errorMsg}
-          connectionId={connectionId}
+          connectSuccess={connectSuccess}
         />
-      ) : (
-        <CreateUser errorMsg={errorMsg} handleSubmit={handleSubmit} />
-      )}
+      }
     </div>
   );
 }

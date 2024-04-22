@@ -11,7 +11,7 @@ export default function CreateUser({
     <main className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-200">
-          Quicker Books.io
+          Shoppers.io
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -19,12 +19,6 @@ export default function CreateUser({
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label
-              htmlFor="text"
-              className="block text-sm font-medium leading-6 text-gray-200"
-            >
-              Username:
-            </label>
             <div className="mt-2">
               <input
                 id="username"

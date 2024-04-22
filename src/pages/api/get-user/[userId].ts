@@ -1,22 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
-type ResponseData = {
-  message: string;
-};
-
-interface Response extends ResponseData {
-  data: {
-    userId: string;
-    fullName: string;
-    username: string;
-  };
-}
-
-export default async function getUser(
-  req: NextApiRequest,
-  res: NextApiResponse<Response | ResponseData>
-) {
+export default async function getUser(req, res) {
   const { userId } = req.query;
 
   if (!userId) {
@@ -25,7 +9,7 @@ export default async function getUser(
 
   try {
     const response = await axios.get(
-      `https://embedded.runalloy.com/2023-12/users/${userId}`,
+      `https://embedded.runalloy.com/2024-03/users/${userId}`,
 
       {
         headers: {
