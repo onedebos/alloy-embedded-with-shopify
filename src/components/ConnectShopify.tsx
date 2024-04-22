@@ -1,7 +1,6 @@
 import Link from "next/link";
 interface ConnectShopifyProps {
   username: string;
-  errorMsg: string;
   connectSuccess: boolean;
   connectToShopify: () => void;
 }
@@ -9,14 +8,14 @@ interface ConnectShopifyProps {
 const ConnectShopify = ({
   username,
   connectToShopify,
-  errorMsg,
   connectSuccess,
 }: ConnectShopifyProps) => {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-200">
-          Welcome
+          Welcome {username}
+          Step 3: Connect to Shopify.
         </h2>
         <button
           type="submit"
@@ -30,11 +29,8 @@ const ConnectShopify = ({
           {!connectSuccess ? "Connect Shopify Store" : "Connection Successful"}
         </button>
       </div>
-      <p className="mt-2 text-center text-red-400">{errorMsg && errorMsg}</p>
 
-      <Link href="/dashboard" className="text-center text-blue-200">
-        {connectSuccess && "Go to Dashboard"}
-      </Link>
+      <div>Step 4: Show user's countries</div>
     </div>
   );
 };

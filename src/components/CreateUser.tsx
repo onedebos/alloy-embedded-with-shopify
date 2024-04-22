@@ -1,17 +1,14 @@
 interface createUserProps {
   handleSubmit: (e: any) => void;
-  errorMsg: string;
+  msg: string;
 }
 
-export default function CreateUser({
-  handleSubmit,
-  errorMsg,
-}: createUserProps) {
+export default function CreateUser({ handleSubmit, msg }: createUserProps) {
   return (
     <main className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-200">
-          Shoppers.io
+          Step 1: Create User
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -39,7 +36,7 @@ export default function CreateUser({
             </button>
           </div>
         </form>
-        <p className="mt-2 text-center text-red-400">{errorMsg && errorMsg}</p>
+        <p className="mt-2 text-center text-gray-500">{msg && msg}</p>
       </div>
     </main>
   );

@@ -3,22 +3,19 @@
 import ConnectShopify from "@/components/ConnectShopify";
 import CreateUser from "@/components/CreateUser";
 import useAlloyHooks from "./useAlloyHook";
-import { useEffect } from "react";
+import ShowIntegrations from "@/components/ShowIntegrations";
 
 export default function Home() {
   const {
     createUser,
-    errorMsg,
+    msg,
     username,
     userId,
+    integrations,
     connectSuccess,
-    getUser,
-    connectToShopify,
+    getIntegrations,
+    installIntegration,
   } = useAlloyHooks();
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -28,14 +25,12 @@ export default function Home() {
 
   return (
     <div>
-      {
-        <ConnectShopify
-          username={""}
-          connectToShopify={connectToShopify}
-          errorMsg={errorMsg}
-          connectSuccess={connectSuccess}
-        />
-      }
+      <CreateUser handleSubmit={handleSubmit} msg={msg} />
+      <ShowIntegrations
+        getIntegrations={getIntegrations}
+        integrations={integrations}
+        installIntegration={installIntegration}
+      />
     </div>
   );
 }

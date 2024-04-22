@@ -1,112 +1,86 @@
 import axios from "axios";
 import { useState } from "react";
-import Alloy from "alloy-frontend";
-import { NextApiResponse } from "next";
 
-interface AlloyHooksResponse extends NextApiResponse {
-  data: { message: string; data: { userId: string; username: string } };
-}
+// Step 0: Install and import alloy-frontend
+import Alloy from "alloy-frontend";
 
 const useAlloyHooks = () => {
   const [username, setUsername] = useState<string>("");
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [msg, setMsg] = useState<string>("");
   const [token, setToken] = useState<string>("");
   const [userId, setUserId] = useState<string>("6622a1914268110c7ca94986");
   const [loading, setLoading] = useState<boolean>(true);
   const [connectSuccess, setConnectSuccess] = useState<boolean>(false);
-  const [orders, setOrders] = useState([]);
+  const [integrations, setIntegrations] = useState([]);
 
   const alloy = Alloy();
 
+  // Step 1: Create a user in Alloy
   const createUser = async (username: string) => {
     try {
-      setErrorMsg("");
+      setMsg("");
       setLoading(true);
-      const response: AlloyHooksResponse = await axios.post(
-        "/api/create-user",
-        { username }
-      );
+      const response = await axios.post("/api/create-user", { username });
       const { userId } = response.data.data;
       setUsername(username);
       setUserId(userId);
+      localStorage.setItem("userId", userId);
+      setMsg("User created!");
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      setErrorMsg(error.response.data.message);
+      setMsg(error.response.data.message);
     }
   };
 
-  const getUser = async () => {
+  // Step 2: Get Integrations
+  const getIntegrations = async () => {
     try {
-      setErrorMsg("");
-      setLoading(true);
-      const response: AlloyHooksResponse = await axios.get(
-        `api/get-user/${userId}`
-      );
-
-      setUsername(response.data.data.username);
-      setLoading(false);
-    } catch (error: any) {
-      setLoading(false);
-      setErrorMsg(error.response.data.message);
+      const userId = localStorage.getItem("userId");
+      const response = await axios.get(`/api/get-integrations/${userId}`);
+      const { data } = response.data.data;
+      console.log(data);
+      setIntegrations(data);
+      localStorage.setItem("integrationId", data.integrationID);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const connectToShopify = async () => {
+  // Step 3: Connect Shopify to App
+  const installIntegration = async (integrationId) => {
     try {
-      setErrorMsg("");
+      setMsg("");
       const response = await axios.get(`/api/get-token/${userId}`);
       const { token } = response.data.data;
 
       setToken(token);
 
       alloy.setToken(token);
-      alloy.authenticate({
-        app: "shopify",
-        callback: (data: any) => {
-          setConnectSuccess(true);
+      console.log({ token, integrationId });
+      alloy.install({
+        integrationId,
+        callback: () => {
+          // console.log(data);
+          // setConnectSuccess(true);
         },
       });
     } catch (error: any) {
-      setErrorMsg(error.response.data.message);
-    }
-  };
-
-  const getCredentialId = async () => {
-    try {
-      const response = await axios.get(`/api/get-credentials/${userId}`);
-      const credentialId = response.data.data;
-
-      localStorage.setItem("credentialId", credentialId);
-    } catch (error) {}
-  };
-
-  const fetchOrders = async () => {
-    try {
-      setErrorMsg("");
-      getCredentialId();
-      const credentialId = localStorage.getItem("credentialId");
-      const response = await axios.get(`/api/get-orders/${credentialId}`);
-      console.log(response.data.data.orders);
-      setOrders(response.data.data.orders);
-      console.log({ orders });
-    } catch (error: any) {
-      setErrorMsg(error.response.data.message);
+      console.log(error);
     }
   };
 
   return {
     username,
-    errorMsg,
+    msg,
     token,
     createUser,
     loading,
     userId,
-    connectToShopify,
-    fetchOrders,
-    getUser,
+    installIntegration,
+    getIntegrations,
     connectSuccess,
-    orders,
+    integrations,
   };
 };
 
